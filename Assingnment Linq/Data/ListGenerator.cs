@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assingnment_Linq.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,16 +10,16 @@ namespace LINQ_Ass_1.Data
 {
 	internal static class ListGenerator
 	{
-		public static List<Product>? ProductList { get; set; }
-		public static List<Customer>? CustomerList { get; set; }
+		public static List<Product> ProductList { get; set; }
+
 		static ListGenerator()
 		{
 			ProductList = new List<Product>()
 			{
-						new Product02() {ProductID = 1000, ProductName = "Product01",	UnitPrice = 10M, SerialNumber = 12345 },
-						new Product02() {ProductID = 2000, ProductName = "Product02",	UnitPrice = 60M, SerialNumber = 45678 },
-						new Product02() {ProductID = 3000, ProductName = "Product03",	UnitPrice = 100M, SerialNumber = 56541 },
-						new Product02() {ProductID = 4000, ProductName = "Product04",	UnitPrice = 70M, SerialNumber = 96532 },
+						new Product02() {ProductID = 1000, ProductName = "Product01",   UnitPrice = 10M, SerialNumber = 12345 },
+						new Product02() {ProductID = 2000, ProductName = "Product02",   UnitPrice = 60M, SerialNumber = 45678 },
+						new Product02() {ProductID = 3000, ProductName = "Product03",   UnitPrice = 100M, SerialNumber = 56541 },
+						new Product02() {ProductID = 4000, ProductName = "Product04",   UnitPrice = 70M, SerialNumber = 96532 },
 			   new Product() {ProductID = 1, ProductName = "Chai", Category = "Beverages",
 					UnitPrice = 18.00M, UnitsInStock = 100},
 				new Product{ ProductID = 2, ProductName = "Chang", Category = "Beverages",
@@ -175,33 +176,6 @@ namespace LINQ_Ass_1.Data
 				UnitPrice = 13.0000M, UnitsInStock = 32 }
 
 			}; // Static Data 
-
-			CustomerList = XDocument.Load("Customers.xml")
-									.Root?
-									.Elements("customer")
-									.Select(e => new Customer
-									{
-										CustomerID = (string?)e.Element("id") ?? "Unknown",
-										CustomerName = (string?)e.Element("name") ?? "No Name",
-										Address = (string?)e.Element("address"),
-										City = (string?)e.Element("city"),
-										Region = (string?)e.Element("region"),
-										PostalCode = (string?)e.Element("postalcode"),
-										Country = (string?)e.Element("country"),
-										Phone = (string?)e.Element("phone"),
-										Fax = (string?)e.Element("fax"),
-
-										Orders = e.Element("orders")?
-												  .Elements("order")
-												  .Select(o => new Order
-												  {
-													  OrderID = int.TryParse((string?)o.Element("id"), out var id) ? id : -1,
-													  OrderDate = DateTime.TryParse((string?)o.Element("orderdate"), out var dt) ? dt : DateTime.MinValue,
-													  Total = decimal.TryParse((string?)o.Element("total"), out var t) ? t : 0m
-												  })
-												  .ToArray() ?? Array.Empty<Order>()
-									})
-									.ToList();
-		} // XML
+		}
 	}
 }
